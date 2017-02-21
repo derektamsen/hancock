@@ -2,15 +2,15 @@ package main
 
 import (
 	"crypto/sha512"
-	"fmt"
+	"github.com/derektamsen/awss3urlsigner/aws"
 	"log"
 	"net/http"
+	"time"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	url := r.URL.Path
-	hashed_url := shasum(url)
-	fmt.Fprintf(w, "sha: %x\nrequest: %s\n", hashed_url, url)
+	presigned_url := awsurl.PreSign(r.URL.Path[1:])
+	http.Redirect(w, r, presigned_url, http.StatusFound)
 }
 
 func shasum(s string) []byte {
@@ -20,6 +20,12 @@ func shasum(s string) []byte {
 }
 
 func main() {
+	httpserver := &http.Server{
+		Addr:           ":8080",
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
 	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(httpserver.ListenAndServe())
 }
