@@ -21,3 +21,10 @@ user -> nginx (auth + proxy) -> aws-s3-url-signer (url signing + redirect) -> us
     2. Redirects user to the S3 or cloudfront endpoint with a signed url
 4. `user`
     1. User issues a direct request to S3 or cloudfront for the requested resource.
+
+## Building
+```
+make
+```
+
+You can also use make to clean your built artifact with `make clean`
