@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/sha512"
 	"github.com/derektamsen/awss3urlsigner/aws"
 	"log"
 	"net/http"
@@ -11,12 +10,6 @@ import (
 func handler(w http.ResponseWriter, r *http.Request) {
 	presigned_url := awsurl.PreSign(r.URL.Path[1:])
 	http.Redirect(w, r, presigned_url, http.StatusFound)
-}
-
-func shasum(s string) []byte {
-	sha := sha512.New()
-	sha.Write([]byte(s))
-	return sha.Sum(nil)
 }
 
 func main() {
