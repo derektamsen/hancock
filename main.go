@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/derektamsen/awss3urlsigner/aws"
+	"github.com/derektamsen/hancock/aws"
 	"log"
 	"net/http"
 	"time"
