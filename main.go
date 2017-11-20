@@ -6,22 +6,19 @@ import (
 	"time"
 
 	"github.com/derektamsen/hancock/aws"
-	"github.com/derektamsen/hancock/opts"
+	"github.com/stevenroose/gonfig"
 )
 
-// Config holds the configuration settings for the service
-// These are default configs and can be overridden in ./config.yaml or ENV vars prefixed
-// with HANCOCK_<var_name>
+// Config holds configuration values for app
 type Config struct {
-	File        string // config file prefix name. Can end in yaml, json, toml
-	ListenAddr  string // address to listen for connections on
-	ListenPort  string // port the service listens for requests at
-	S3Bucket    string // bucket assets are located
-	PresignTime int    // time in minutes url is valid
-	AWSSvc      string // service to generate presigned url for
+	ConfigFile  string `short:"f" desc:"Path to config file"`
+	ListenAddr  string `short:"a" default:"0.0.0.0" desc:"Address to listen for connections"`
+	ListenPort  string `short:"p" default:"8080" desc:"Port the service listens for requests"`
+	S3Bucket    string `short:"b" default:"testbucket" desc:"Bucket assets are located"`
+	PresignTime int    `short:"t" default:"15" desc:"time in minutes url is valid"`
+	AWSSvc      string `short:"s" default:"s3" desc:"service to generate presigned url for"`
 }
 
-// holds configuration values
 var config Config
 
 // httpHandler signs urls using awsurl.S3PreSign then redirects the user to the new location
@@ -39,16 +36,17 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 
 // main starts a http server listening for requests on <listen_host>:<listen_port>
 func main() {
-	config.File = opts.GetConfigString("aws_svc", "config")
+	err := gonfig.Load(&config, gonfig.Conf{
+		ConfigFileVariable:  "configfile", // enables passing --configfile myfile.conf
+		FileDefaultFilename: "hancock.conf",
+		FileDecoder:         gonfig.DecoderTOML,
+		EnvPrefix:           "HANCOCK_",
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	log.Print("Starting Hancock signing server")
-	opts.SetConfigLoad("hancock", config.File)
-
-	config.ListenAddr = opts.GetConfigString("listen_address", "0.0.0.0")
-	config.ListenPort = opts.GetConfigString("listen_port", "8080")
-	config.S3Bucket = opts.GetConfigString("s3_bucket", "testbucket")
-	config.PresignTime = opts.GetConfigInt("presign_time", 15)
-	config.AWSSvc = opts.GetConfigString("aws_service", "s3")
 
 	httpServer := &http.Server{
 		Addr:           config.ListenAddr + ":" + config.ListenPort,
