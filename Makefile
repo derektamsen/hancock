@@ -10,3 +10,4 @@ build:
 
 clean:
 	$(GO) clean
+	rm -r ./vendor/
