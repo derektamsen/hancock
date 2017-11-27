@@ -14,12 +14,12 @@ import (
 
 // S3Session builds an interface to s3
 type S3Session struct {
-	Client s3iface.S3API
+	s3iface.S3API
 }
 
 // s3signer signs urls for aws S3
 func (s *S3Session) s3signer(obj string, s3Bucket string, presignTime int) (string, error) {
-	req, _ := s.Client.GetObjectRequest(&s3.GetObjectInput{
+	req, _ := s.GetObjectRequest(&s3.GetObjectInput{
 		Bucket: aws.String(s3Bucket),
 		Key:    aws.String(obj),
 	})
@@ -42,7 +42,12 @@ func (s *S3Session) s3signer(obj string, s3Bucket string, presignTime int) (stri
 func S3PreSign(obj string, s3Bucket string, presignTime int) string {
 	sess := session.Must(session.NewSession())
 
-	region, err := s3manager.GetBucketRegion(aws.BackgroundContext(), sess, s3Bucket, endpoints.UsWest2RegionID)
+	region, err := s3manager.GetBucketRegion(
+		aws.BackgroundContext(),
+		sess,
+		s3Bucket,
+		endpoints.UsWest2RegionID,
+	)
 	if err != nil {
 		log.Println("failed to get bucket region", err)
 	}
@@ -51,7 +56,7 @@ func S3PreSign(obj string, s3Bucket string, presignTime int) string {
 		Region: aws.String(region),
 	})
 
-	svc := S3Session{Client: s3Client}
+	svc := S3Session{s3Client}
 
 	urlStr, _ := svc.s3signer(obj, s3Bucket, presignTime)
 	return urlStr
