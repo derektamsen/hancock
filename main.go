@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/derektamsen/hancock/aws"
+	awsurl "github.com/derektamsen/hancock/aws"
 	"github.com/stevenroose/gonfig"
 )
 
