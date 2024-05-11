@@ -5,19 +5,21 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3iface"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
 
 // S3Session builds an interface to s3
 type S3Session struct {
-	Client s3iface.S3API
+	s3iface.S3API
 }
 
 // s3signer signs urls for aws S3
 func (s *S3Session) s3signer(obj string, s3Bucket string, presignTime int) (string, error) {
-	req, _ := s.Client.GetObjectRequest(&s3.GetObjectInput{
+	req, _ := s.GetObjectRequest(&s3.GetObjectInput{
 		Bucket: aws.String(s3Bucket),
 		Key:    aws.String(obj),
 	})
@@ -38,12 +40,24 @@ func (s *S3Session) s3signer(obj string, s3Bucket string, presignTime int) (stri
 // presignTime is the length of time the presignedURL is good for in minutes
 // Returns the signed url as a string.
 func S3PreSign(obj string, s3Bucket string, presignTime int) string {
-	sess, err := session.NewSession()
+	sess := session.Must(session.NewSession())
+
+	region, err := s3manager.GetBucketRegion(
+		aws.BackgroundContext(),
+		sess,
+		s3Bucket,
+		endpoints.UsWest2RegionID,
+	)
 	if err != nil {
-		log.Panic(err)
+		log.Println("failed to get bucket region", err)
 	}
 
-	svc := S3Session{Client: s3.New(sess)}
+	s3Client := s3.New(sess, &aws.Config{
+		Region: aws.String(region),
+	})
+
+	svc := S3Session{s3Client}
+
 	urlStr, _ := svc.s3signer(obj, s3Bucket, presignTime)
 	return urlStr
 }
