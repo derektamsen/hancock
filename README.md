@@ -32,6 +32,6 @@ You can also use make to clean your built artifact with `make clean`
 ## Running
 This will be more complete later. However, for testing I am running the command directly with:
 ```
-AWS_ACCESS_KEY_ID=<access_key> AWS_SECRET_ACCESS_KEY='<secret_key>' ./awss3urlsigner
+AWS_ACCESS_KEY_ID=<access_key> AWS_SECRET_ACCESS_KEY='<secret_key>' ./hancock
 ```
-The `awss3urlsigner` is currently hard coded to listen on `0.0.0.0:8080`. This will be modifiable in the future.
+The `hancock` is currently hard coded to listen on `0.0.0.0:8080`. This will be modifiable in the future.
