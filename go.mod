@@ -3,7 +3,7 @@ module github.com/derektamsen/hancock
 go 1.22.3
 
 require (
-	github.com/aws/aws-sdk-go v1.53.14
+	github.com/aws/aws-sdk-go v1.53.19
 	github.com/stevenroose/gonfig v0.1.5
 )
 
