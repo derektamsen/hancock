@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/derektamsen/hancock/compare/v0.1.1...v0.2.0) (2025-09-27)
+
+
+### Features
+
+* **devcontainer:** use base debian iamge, install go with feature ([#49](https://github.com/derektamsen/hancock/issues/49)) ([bb1a133](https://github.com/derektamsen/hancock/commit/bb1a133f2d5964fc2f035c595177da0aec5b5cd0))
+
 ## [0.1.1](https://github.com/derektamsen/hancock/compare/v0.1.0...v0.1.1) (2024-06-11)
 
 
