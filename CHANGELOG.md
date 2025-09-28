@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/derektamsen/hancock/compare/v0.2.0...v0.2.1) (2025-09-28)
+
+
+### Bug Fixes
+
+* **ci:** use current goreleaser syntax and ensure releaser uses stable golang ([#51](https://github.com/derektamsen/hancock/issues/51)) ([f53c7bb](https://github.com/derektamsen/hancock/commit/f53c7bbb7e26b1ab5829b221634e9304caa78b28))
+
 ## [0.2.0](https://github.com/derektamsen/hancock/compare/v0.1.1...v0.2.0) (2025-09-27)
 
 
