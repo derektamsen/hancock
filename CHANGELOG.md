@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/derektamsen/hancock/compare/v0.2.1...v0.3.0) (2026-02-24)
+
+
+### Features
+
+* release 0.3.0 ([#56](https://github.com/derektamsen/hancock/issues/56)) ([3e438e8](https://github.com/derektamsen/hancock/commit/3e438e802aed57bcbd88a2c9c74867a92bf15157))
+
 ## [0.2.1](https://github.com/derektamsen/hancock/compare/v0.2.0...v0.2.1) (2025-09-28)
 
 
