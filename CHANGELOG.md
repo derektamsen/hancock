@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/derektamsen/hancock/compare/v0.3.0...v0.4.0) (2026-07-26)
+
+
+### Features
+
+* **ci:** group codeql dependabot prs to enable auto-generation ([#82](https://github.com/derektamsen/hancock/issues/82)) ([b4ba87f](https://github.com/derektamsen/hancock/commit/b4ba87fb90becd4395c65eb443631376acb66a4b))
+
 ## [0.3.0](https://github.com/derektamsen/hancock/compare/v0.2.1...v0.3.0) (2026-02-24)
 
 
